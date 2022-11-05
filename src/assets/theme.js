@@ -13,7 +13,9 @@ const common = {
 };
 
 const fontSizes = {
+  lgTitle: "26px",
   navTitle: "16px",
+  mdTitle: "14px",
   navSubtitle: "12px",
 };
 
