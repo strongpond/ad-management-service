@@ -13,13 +13,19 @@ const common = {
 };
 
 const fontSizes = {
-  title: "17px",
+  navTitle: "16px",
+  navSubtitle: "12px",
 };
 
 const colors = {
   black: "#000000",
-  grey: "#D9D9D9",
+  fontBlack: "#3A474E",
+  fontGrey: "#94A2AD",
+  borderGrey: "#D1D8DC",
+  grey: "#F6F7F8",
+  lightGrey: "#EDEFF1",
   white: "#ffffff",
+  blue: "#586CF5",
 };
 
 const theme = {
