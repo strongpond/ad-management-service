@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-const Main = () => {
-  return <Container>Hi</Container>;
+const AdManagement = () => {
+  return <Container>AdManagement</Container>;
 };
 
-export default Main;
+export default AdManagement;
 
 const Container = styled.div``;
