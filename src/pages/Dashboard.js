@@ -1,21 +1,74 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
+import DatePicker from "react-datepicker";
 import { IoIosArrowDown } from "react-icons/io";
 import styled from "styled-components";
+import "react-datepicker/dist/react-datepicker.css";
+import dayjs from "dayjs";
 import { Board } from "../components";
+import { useEffect } from "react";
 
 const Dashboard = () => {
+  const [startDate, setStartDate] = useState(new Date("2022-04-20"));
+  const [endDate, setEndDate] = useState(new Date("2022-04-20"));
+  const [trendData, setTrendData] = useState([]);
+  const [filterData, setFilterData] = useState(trendData);
+
+  const fetchData = () => {
+    return fetch("data/trend-data-set.json")
+      .then(response => response.json())
+      .then(data => data.report.daily);
+  };
+
+  const onFilterData = useCallback(() => {
+    setFilterData(
+      trendData.filter(e => {
+        return (
+          e.date >= dayjs(startDate).format("YYYY-MM-DD") &&
+          e.date <= dayjs(endDate).format("YYYY-MM-DD")
+        );
+      })
+    );
+  }, [trendData, startDate, endDate]);
+
+  const onChange = dates => {
+    const [start, end] = dates;
+    setStartDate(start);
+    setEndDate(end);
+  };
+
+  useEffect(() => {
+    fetchData().then(data => {
+      setTrendData(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (startDate && endDate) {
+      onFilterData();
+    }
+  }, [startDate, endDate, onFilterData]);
+
   return (
     <Container>
       <TitleBox>
         <Title>대시보드</Title>
         <DateBox>
-          <Date>2021년 11월 11일~2021년 11월 16일</Date>
+          <DatePicker
+            selected={startDate}
+            onChange={onChange}
+            startDate={startDate}
+            endDate={endDate}
+            minDate={new Date("2022-02-01")}
+            maxDate={new Date("2022-04-20")}
+            selectsRange
+          />
+          {/* <Date>2021년 11월 11일~2021년 11월 16일</Date> */}
           <IoIosArrowDown />
         </DateBox>
       </TitleBox>
       <MainBoard>
         <BoardTitle>통합 광고 현황</BoardTitle>
-        <Board />
+        <Board filterData={filterData} />
       </MainBoard>
     </Container>
   );
@@ -46,12 +99,12 @@ const DateBox = styled.div`
   flex-direction: row;
 `;
 
-const Date = styled.p`
-  padding-right: 15px;
-  color: ${({ theme }) => theme.colors.fontBlack};
-  font-size: ${({ theme }) => theme.fontSizes.mdTitle};
-  font-weight: 500;
-`;
+// const Date = styled.p`
+//   padding-right: 15px;
+//   color: ${({ theme }) => theme.colors.fontBlack};
+//   font-size: ${({ theme }) => theme.fontSizes.mdTitle};
+//   font-weight: 500;
+// `;
 
 const MainBoard = styled.div``;
 

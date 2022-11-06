@@ -2,19 +2,20 @@ import React from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import styled from "styled-components";
 
-const Board = () => {
+const Board = filterData => {
+  console.log(filterData);
   const cardList = ["ROAS", "광고비", "노출 수", "클릭 수", "전환 수", "매출"];
-  const cardMap = {
-    roas: "ROAS",
-    cost: "광고비",
-    imp: "노출수",
-    click: "클릭수",
-    cvr: "전환수",
-    ctr: "매출",
-  };
-  const executeCard = cardType => {
-    return cardMap[cardType];
-  };
+  // const cardMap = {
+  //   roas: "ROAS",
+  //   cost: "광고비",
+  //   imp: "노출수",
+  //   click: "클릭수",
+  //   cvr: "전환수",
+  //   ctr: "매출",
+  // };
+  // const executeCard = cardType => {
+  //   return cardMap[cardType];
+  // };
 
   return (
     <Container>
