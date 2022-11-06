@@ -1,8 +1,16 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import styled from "styled-components";
 
 const AsideBar = () => {
+  const pathName = useLocation().pathname;
+
+  const menus = [
+    { name: "대시보드", path: "/" },
+    { name: "광고관리", path: "/ad" },
+  ];
+
   return (
     <MenuBox>
       <NavBox>
@@ -19,8 +27,15 @@ const AsideBar = () => {
         <ServiceBox>
           <ServiceTitle>광고 센터</ServiceTitle>
           <TabMenuList>
-            <TabMenu className="isSelected">대시보드</TabMenu>
-            <TabMenu>광고관리</TabMenu>
+            {menus.map((menu, index) => {
+              return (
+                <TabLink to={menu.path} key={index}>
+                  <TabMenu className={pathName === menu.path ? "isActive" : ""}>
+                    {menu.name}
+                  </TabMenu>
+                </TabLink>
+              );
+            })}
           </TabMenuList>
         </ServiceBox>
       </NavBox>
@@ -92,8 +107,9 @@ const TabMenu = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   font-size: ${({ theme }) => theme.fontSizes.navTitle};
   font-weight: 700;
+  text-decoration: none;
 
-  &.isSelected {
+  &.isActive {
     color: ${({ theme }) => theme.colors.blue};
     background-color: ${({ theme }) => theme.colors.lightGrey};
   }
@@ -101,6 +117,10 @@ const TabMenu = styled.div`
   &:hover {
     cursor: pointer;
   }
+`;
+
+const TabLink = styled(Link)`
+  text-decoration: none;
 `;
 
 const FooterBox = styled.div`
