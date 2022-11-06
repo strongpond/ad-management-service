@@ -11,7 +11,8 @@ const Dashboard = () => {
   const [startDate, setStartDate] = useState(new Date("2022-04-20"));
   const [endDate, setEndDate] = useState(new Date("2022-04-20"));
   const [trendData, setTrendData] = useState([]);
-  const [filterData, setFilterData] = useState(trendData);
+  const [filterData, setFilterData] = useState([]);
+  const [prevData, setPrevData] = useState([]);
 
   const fetchData = () => {
     return fetch("data/trend-data-set.json")
@@ -25,6 +26,16 @@ const Dashboard = () => {
         return (
           e.date >= dayjs(startDate).format("YYYY-MM-DD") &&
           e.date <= dayjs(endDate).format("YYYY-MM-DD")
+        );
+      })
+    );
+
+    setPrevData(
+      trendData.filter(e => {
+        const diff = dayjs(endDate).diff(dayjs(startDate), "d") + 1;
+        return (
+          e.date >= dayjs(startDate).subtract(diff, "d").format("YYYY-MM-DD") &&
+          e.date <= dayjs(endDate).subtract(diff, "d").format("YYYY-MM-DD")
         );
       })
     );
@@ -68,7 +79,7 @@ const Dashboard = () => {
       </TitleBox>
       <MainBoard>
         <BoardTitle>통합 광고 현황</BoardTitle>
-        <Board filterData={filterData} />
+        <Board filterData={filterData} prevData={prevData} />
       </MainBoard>
     </Container>
   );

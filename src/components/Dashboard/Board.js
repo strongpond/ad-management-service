@@ -1,32 +1,81 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { IoIosArrowDown } from "react-icons/io";
+import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import styled from "styled-components";
 
-const Board = filterData => {
-  console.log(filterData);
-  const cardList = ["ROAS", "광고비", "노출 수", "클릭 수", "전환 수", "매출"];
-  // const cardMap = {
-  //   roas: "ROAS",
-  //   cost: "광고비",
-  //   imp: "노출수",
-  //   click: "클릭수",
-  //   cvr: "전환수",
-  //   ctr: "매출",
-  // };
-  // const executeCard = cardType => {
-  //   return cardMap[cardType];
-  // };
+const Board = ({ filterData, prevData }) => {
+  const [filterSumData, setFilterSumData] = useState([]);
+  const [prevSumData, setPrevSumData] = useState([]);
+  const filterDataLength = filterData.length;
+  const prevDataLength = prevData.length;
+
+  const getSumObject = data => {
+    return data.reduce((acc, curr) => {
+      for (let prop in curr) {
+        if (acc[prop]) acc[prop] += curr[prop];
+        else acc[prop] = curr[prop];
+      }
+      return acc;
+    }, {});
+  };
+
+  useEffect(() => {
+    setFilterSumData(getSumObject(filterData));
+    setPrevSumData(getSumObject(prevData));
+  }, [filterData, prevData]);
+
+  const cardMap = [
+    {
+      title: "ROAS",
+      value: Math.floor(filterSumData.roas / filterDataLength),
+      prevValue: Math.floor(prevSumData.roas / prevDataLength),
+      unit: "%",
+    },
+    {
+      title: "광고비",
+      value: Math.floor(filterSumData.cost / (filterDataLength * 100)),
+      prevValue: Math.floor(prevSumData.cost / (prevDataLength * 100)),
+      unit: "만 원",
+    },
+    {
+      title: "노출수",
+      value: Math.floor(filterSumData.imp / (filterDataLength * 1000)),
+      prevValue: Math.floor(prevSumData.imp / (prevDataLength * 1000)),
+      unit: "만 회",
+    },
+    {
+      title: "클릭수",
+      value: (filterSumData.click / (filterDataLength * 100)).toFixed(1),
+      prevValue: (prevSumData.click / (prevDataLength * 100)).toFixed(1),
+      unit: "만 회",
+    },
+    {
+      title: "전환수",
+      value: (filterSumData.cvr / filterDataLength).toFixed(1),
+      prevValue: (prevSumData.cvr / prevDataLength).toFixed(1),
+      unit: " 회",
+    },
+    {
+      title: "매출",
+      value: (filterSumData.ctr / filterDataLength).toFixed(1),
+      prevValue: (prevSumData.ctr / prevDataLength).toFixed(1),
+      unit: "억 원",
+    },
+  ];
 
   return (
     <Container>
       <CardBox>
-        {cardList.map((el, index) => {
+        {cardMap.map((el, index) => {
           return (
-            <Card>
-              <CardName>{el}</CardName>
+            <Card key={index}>
+              <CardName>{el.title}</CardName>
               <CardDataBox>
-                <CardData>697%</CardData>
-                <FluctuationRate>18%</FluctuationRate>
+                <CardData>{`${el.value + el.unit}`}</CardData>
+                <FluctuationRateBox>
+                  <TiArrowSortedDown />
+                  <FluctuationRate>{`${el.value - el.prevValue}${el.unit}`}</FluctuationRate>
+                </FluctuationRateBox>
               </CardDataBox>
             </Card>
           );
@@ -102,7 +151,14 @@ const CardData = styled.div`
   font-weight: 700;
 `;
 
+const FluctuationRateBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
 const FluctuationRate = styled.div`
+  margin-left: 5px;
   color: ${({ theme }) => theme.colors.fontGrey};
   font-size: ${({ theme }) => theme.fontSizes.navSubtitle};
   font-weight: 500;
