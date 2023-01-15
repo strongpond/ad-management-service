@@ -1,11 +1,10 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import { IoIosArrowDown } from "react-icons/io";
 import styled from "styled-components";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs from "dayjs";
 import { Board } from "../components";
-import { useEffect } from "react";
 
 const Dashboard = () => {
   const [startDate, setStartDate] = useState(new Date("2022-04-20"));
