@@ -11,7 +11,6 @@ const AdDropDown = ({ value, setAdIdentify, setIsOpen, isOpen }) => {
 export default AdDropDown;
 
 const AdMenu = styled.li`
-  justify-content: center;
   margin: 10px;
   cursor: pointer;
 `;
