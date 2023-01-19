@@ -73,7 +73,11 @@ const Board = ({ filterData, prevData }) => {
               <CardDataBox>
                 <CardData>{`${el.value + el.unit}`}</CardData>
                 <FluctuationRateBox>
-                  <TiArrowSortedDown />
+                  {el.value - el.prevValue > 0 ? (
+                    <TiArrowSortedUp color="#84DA46" />
+                  ) : (
+                    <TiArrowSortedDown color="#EA3A4B" />
+                  )}
                   <FluctuationRate>{`${Math.round((el.value - el.prevValue) * 10) / 10}${
                     el.unit
                   }`}</FluctuationRate>

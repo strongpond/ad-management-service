@@ -1,14 +1,16 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
+import { HiOutlinePresentationChartLine } from "react-icons/hi";
+import { BiBarChartAlt2 } from "react-icons/bi";
 import styled from "styled-components";
 
 const AsideBar = () => {
   const pathName = useLocation().pathname;
 
   const menus = [
-    { name: "대시보드", path: "/" },
-    { name: "광고관리", path: "/ad" },
+    { name: "대시보드", path: "/", icon: "HiOutlinePresentationChartLine" },
+    { name: "광고관리", path: "/ad", icon: "BiBarChartAlt2" },
   ];
 
   return (
@@ -31,7 +33,10 @@ const AsideBar = () => {
               return (
                 <TabLink to={menu.path} key={index}>
                   <TabMenu className={pathName === menu.path ? "isActive" : ""}>
-                    {menu.name}
+                    {index === 0 ? <HiOutlinePresentationChartLine /> : <BiBarChartAlt2 />}
+                    <TabTitle className={pathName === menu.path ? "isActive" : ""}>
+                      {menu.name}
+                    </TabTitle>
                   </TabMenu>
                 </TabLink>
               );
@@ -101,6 +106,7 @@ const ServiceContent = styled.p`
 const TabMenuList = styled.div``;
 
 const TabMenu = styled.div`
+  display: flex;
   padding: 20px;
   border-radius: 10px;
   color: ${({ theme }) => theme.colors.fontBlack};
@@ -116,6 +122,14 @@ const TabMenu = styled.div`
 
   &:hover {
     cursor: pointer;
+  }
+`;
+
+const TabTitle = styled.p`
+  margin-left: 10px;
+
+  &.isActive {
+    color: ${({ theme }) => theme.colors.blue};
   }
 `;
 
