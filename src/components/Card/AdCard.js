@@ -1,29 +1,31 @@
 import React from "react";
+import dayjs from "dayjs";
 import styled from "styled-components";
 
 const AdCard = ({ data }) => {
   const { title, status, startDate, budget, report } = data;
-  const { roas, convValue, cost } = report;
-  const CardDataList = {
-    status: "상태",
-    startDate: "광고 생성일",
-    budget: "일 희망 예산",
-    roas: "광고 수익률",
-    convValue: "매출",
-    cost: "광고 비용",
-  };
+  const { roas, convValue, cost } = report || {};
+
+  const date = dayjs(startDate, "YYYY-MM-DD HH:mm:ss");
+
+  const CardDataList = [
+    { name: "상태", desc: status },
+    { name: "광고 생성일", desc: date.format("YY-MM-DD") },
+    { name: "일 희망 예산", desc: budget },
+    { name: "광고 수익률", desc: roas },
+    { name: "매출", desc: convValue },
+    { name: "광고 비용", desc: cost },
+  ];
 
   return (
     <AdCardWrapper>
       <CardTitle>{title}</CardTitle>
       <CardDescWrapper>
-        {Object.entries(CardDataList).map(([key, value]) => {
-          console.log(key, value);
-          if (key === "report") return null;
+        {CardDataList.map((e, i) => {
           return (
-            <CardDescBox>
-              <CardDesc>{CardDataList[key]}</CardDesc>
-              <CardDescValue>{value}</CardDescValue>
+            <CardDescBox key={i}>
+              <CardDesc>{e.name}</CardDesc>
+              <CardDescValue>{e.desc}</CardDescValue>
             </CardDescBox>
           );
         })}
@@ -38,6 +40,7 @@ export default AdCard;
 const AdCardWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px;
   padding: 20px;
   width: 300px;
   border: 1px solid ${({ theme }) => theme.colors.borderGrey};

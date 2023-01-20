@@ -55,9 +55,9 @@ const AdManagement = () => {
             <AddAdButton>광고 만들기</AddAdButton>
           </BoardHeader>
           <AdCardSection>
-            {adData.map(data => {
-              <AdCard key={data.id} data={data} />;
-            })}
+            {adData.map(data => (
+              <AdCard key={data.id} data={data} />
+            ))}
           </AdCardSection>
         </Board>
       </MainBoard>
@@ -144,5 +144,7 @@ const AddAdButton = styled.button`
 
 const AdCardSection = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
   margin-top: 30px;
 `;
