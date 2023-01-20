@@ -1,24 +1,29 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { IoIosArrowDown } from "react-icons/io";
+// import dayjs from "dayjs";
 import styled from "styled-components";
 
 import { useDetectClose } from "../hooks";
-import { AdDropDown } from "../components";
+import { AdCard, AdDropDown } from "../components";
 
 const AdManagement = () => {
   const dropDownRef = useRef();
   const [adIdentify, setAdIdentify] = useState("전체광고");
-  const adList = ["전체광고", "진행중", "마감"];
-  const CardDescTitleList = [
-    "상태",
-    "광고 생성일",
-    "일 희망 예산",
-    "광고 수익률",
-    "매출",
-    "광고 비용",
-  ];
-
+  const [adData, setAdData] = useState([]);
   const [isOpen, setIsOpen] = useDetectClose(dropDownRef, false);
+  const adList = ["전체광고", "진행중", "마감"];
+
+  const fetchData = () => {
+    return fetch("data/ad-list-data-set.json")
+      .then(response => response.json())
+      .then(data => data.ads);
+  };
+
+  useEffect(() => {
+    fetchData().then(data => {
+      setAdData(data);
+    });
+  }, []);
 
   return (
     <Container>
@@ -50,16 +55,9 @@ const AdManagement = () => {
             <AddAdButton>광고 만들기</AddAdButton>
           </BoardHeader>
           <AdCardSection>
-            <AdCard>
-              <CardTitle>웹광고 1</CardTitle>
-              {CardDescTitleList.map((value, index) => (
-                <CardDescBox>
-                  <CardDesc key={index}>{value}</CardDesc>
-                  <CardDescValue>data</CardDescValue>
-                </CardDescBox>
-              ))}
-              <CardEditButton>수정하기</CardEditButton>
-            </AdCard>
+            {adData.map(data => {
+              <AdCard key={data.id} data={data} />;
+            })}
           </AdCardSection>
         </Board>
       </MainBoard>
@@ -91,7 +89,6 @@ const MainBoard = styled.div``;
 
 const Board = styled.div`
   padding: 40px;
-  height: 654px;
   background-color: ${({ theme }) => theme.colors.white};
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   border-radius: 20px;
@@ -149,32 +146,3 @@ const AdCardSection = styled.div`
   display: flex;
   margin-top: 30px;
 `;
-
-const AdCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  width: 300px;
-  height: 500px;
-  border: 1px solid red;
-  border-radius: 10px;
-`;
-
-const CardTitle = styled.div`
-  padding: 20px 0;
-  font-size: ${({ theme }) => theme.fontSizes.navTitle};
-  font-weight: 700;
-`;
-
-const CardDescBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 10px 0;
-`;
-
-const CardDesc = styled.p``;
-
-const CardDescValue = styled.p``;
-
-const CardEditButton = styled.button``;
