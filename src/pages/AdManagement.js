@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from "react";
 import { IoIosArrowDown } from "react-icons/io";
-// import dayjs from "dayjs";
 import styled from "styled-components";
 
 import { useDetectClose } from "../hooks";
@@ -10,6 +9,7 @@ const AdManagement = () => {
   const dropDownRef = useRef();
   const [adIdentify, setAdIdentify] = useState("전체광고");
   const [adData, setAdData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [isOpen, setIsOpen] = useDetectClose(dropDownRef, false);
   const adList = ["전체광고", "진행중", "마감"];
 
@@ -22,6 +22,7 @@ const AdManagement = () => {
   useEffect(() => {
     fetchData().then(data => {
       setAdData(data);
+      setFilteredData(data);
     });
   }, []);
 
@@ -44,8 +45,10 @@ const AdManagement = () => {
                     <AdDropDown
                       key={index}
                       value={value}
+                      adData={adData}
                       setIsOpen={setIsOpen}
                       setAdIdentify={setAdIdentify}
+                      setFilteredData={setFilteredData}
                       isOpen={isOpen}
                     />
                   ))}
@@ -55,7 +58,7 @@ const AdManagement = () => {
             <AddAdButton>광고 만들기</AddAdButton>
           </BoardHeader>
           <AdCardSection>
-            {adData.map(data => (
+            {filteredData.map(data => (
               <AdCard key={data.id} data={data} />
             ))}
           </AdCardSection>
