@@ -1,19 +1,13 @@
-import { useRef, useEffect } from "react";
-import { IoIosArrowDown } from "react-icons/io";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useEffect } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 
-import { adIdentifyAtom, adDataAtom, filteredDataAtom } from "../atoms";
-import { useDetectClose } from "../hooks";
-import { AdCard, AdDropDownList } from "../components";
+import { adDataAtom, filteredDataAtom } from "../atoms";
+import { AdCard, AdDropDown } from "../components";
 
 const AdManagement = () => {
-  const dropDownRef = useRef();
-  const adIdentify = useRecoilValue(adIdentifyAtom);
   const setAdData = useSetRecoilState(adDataAtom);
   const [filteredData, setFilteredData] = useRecoilState(filteredDataAtom);
-  const [isOpen, setIsOpen] = useDetectClose(dropDownRef, false);
-  const adList = ["전체광고", "진행중", "마감"];
 
   const fetchData = () => {
     return fetch("data/ad-list-data-set.json")
@@ -37,24 +31,7 @@ const AdManagement = () => {
       <MainBoard>
         <Board>
           <BoardHeader>
-            <DropBox ref={dropDownRef} onClick={() => setIsOpen(!isOpen)}>
-              <DropHeader>
-                <SelectedInput>{adIdentify}</SelectedInput>
-                <IoIosArrowDown />
-              </DropHeader>
-              {isOpen && (
-                <DropList>
-                  {adList.map((value, index) => (
-                    <AdDropDownList
-                      key={index}
-                      value={value}
-                      setIsOpen={setIsOpen}
-                      isOpen={isOpen}
-                    />
-                  ))}
-                </DropList>
-              )}
-            </DropBox>
+            <AdDropDown />
             <AddAdButton>광고 만들기</AddAdButton>
           </BoardHeader>
           <AdCardSection>
@@ -100,45 +77,6 @@ const Board = styled.div`
 const BoardHeader = styled.div`
   display: flex;
   justify-content: space-between;
-`;
-
-const DropBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  min-width: 120px;
-  padding: 15px;
-  border: 1px solid ${({ theme }) => theme.colors.borderGrey};
-  border-radius: 10px;
-  cursor: pointer;
-`;
-
-const DropHeader = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const SelectedInput = styled.p`
-  margin-right: 15px;
-  min-width: 60px;
-  background-color: ${({ theme }) => theme.colors.white};
-  border: none;
-  color: ${({ theme }) => theme.colors.fontBlack};
-  font-size: ${({ theme }) => theme.fontSizes.navTitle};
-  font-weight: 500;
-`;
-
-const DropList = styled.ul`
-  display: block;
-  position: absolute;
-  width: 102%;
-  margin-top: 25px;
-  border: 1px solid ${({ theme }) => theme.colors.borderGrey};
-  border-top: none;
-  border-radius: 0 0 10px 10px;
-  background-color: ${({ theme }) => theme.colors.white};
-  transition: height 0.3s ease;
 `;
 
 const AddAdButton = styled.button`
