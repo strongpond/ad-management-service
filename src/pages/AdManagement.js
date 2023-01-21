@@ -1,15 +1,17 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { IoIosArrowDown } from "react-icons/io";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 
+import { adIdentifyAtom, adDataAtom, filteredDataAtom } from "../atoms";
 import { useDetectClose } from "../hooks";
 import { AdCard, AdDropDownList } from "../components";
 
 const AdManagement = () => {
   const dropDownRef = useRef();
-  const [adIdentify, setAdIdentify] = useState("전체광고");
-  const [adData, setAdData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
+  const adIdentify = useRecoilValue(adIdentifyAtom);
+  const setAdData = useSetRecoilState(adDataAtom);
+  const [filteredData, setFilteredData] = useRecoilState(filteredDataAtom);
   const [isOpen, setIsOpen] = useDetectClose(dropDownRef, false);
   const adList = ["전체광고", "진행중", "마감"];
 
@@ -20,11 +22,12 @@ const AdManagement = () => {
   };
 
   useEffect(() => {
+    if (filteredData.length > 0) return;
     fetchData().then(data => {
       setAdData(data);
       setFilteredData(data);
     });
-  }, []);
+  }, [filteredData.length, setAdData, setFilteredData]);
 
   return (
     <Container>
@@ -45,10 +48,7 @@ const AdManagement = () => {
                     <AdDropDownList
                       key={index}
                       value={value}
-                      adData={adData}
                       setIsOpen={setIsOpen}
-                      setAdIdentify={setAdIdentify}
-                      setFilteredData={setFilteredData}
                       isOpen={isOpen}
                     />
                   ))}

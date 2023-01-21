@@ -1,23 +1,26 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { RecoilRoot } from "recoil";
 import styled from "styled-components";
 import { AsideBar, Header } from "./components";
 import { Dashboard, AdManagement } from "./pages";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Container>
-        <AsideBar />
-        <MainSection>
-          <Header />
-          <Routes>
-            <Route exact path="/" element={<Dashboard />} />
-            <Route exact path="/ad" element={<AdManagement />} />
-          </Routes>
-        </MainSection>
-      </Container>
-    </BrowserRouter>
+    <RecoilRoot>
+      <BrowserRouter>
+        <Container>
+          <AsideBar />
+          <MainSection>
+            <Header />
+            <Routes>
+              <Route exact path="/" element={<Dashboard />} />
+              <Route exact path="/ad" element={<AdManagement />} />
+            </Routes>
+          </MainSection>
+        </Container>
+      </BrowserRouter>
+    </RecoilRoot>
   );
 };
 

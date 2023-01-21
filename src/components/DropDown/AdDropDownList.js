@@ -1,7 +1,13 @@
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { adDataAtom, adIdentifyAtom, filteredDataAtom } from "../../atoms";
 import { convertStatus } from "../../utils";
 
-const AdDropDownList = ({ value, adData, setAdIdentify, setIsOpen, isOpen, setFilteredData }) => {
+const AdDropDownList = ({ value, setIsOpen, isOpen }) => {
+  const adData = useRecoilValue(adDataAtom);
+  const setFilteredData = useSetRecoilState(filteredDataAtom);
+  const setAdIdentify = useSetRecoilState(adIdentifyAtom);
+
   const ValueClick = () => {
     setAdIdentify(value);
     setIsOpen(!isOpen);
