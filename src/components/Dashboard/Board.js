@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { IoIosArrowDown } from "react-icons/io";
+import { BsCircleFill } from "react-icons/bs";
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import styled from "styled-components";
 
@@ -91,10 +92,12 @@ const Board = ({ filterData, prevData }) => {
         <ChartViewBox>
           <ChartDropDownBox>
             <ChartDropDown>
+              <BsCircleFill size="12" color="#4EADF7" />
               <DropDownMenu>ROAS</DropDownMenu>
               <IoIosArrowDown />
             </ChartDropDown>
             <ChartDropDown>
+              <BsCircleFill size="12" color="#84DA46" />
               <DropDownMenu>클릭 수</DropDownMenu>
               <IoIosArrowDown />
             </ChartDropDown>
