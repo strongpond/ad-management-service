@@ -107,6 +107,7 @@ const DropBox = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
+  min-width: 120px;
   padding: 15px;
   border: 1px solid ${({ theme }) => theme.colors.borderGrey};
   border-radius: 10px;
@@ -120,6 +121,7 @@ const DropHeader = styled.div`
 
 const SelectedInput = styled.p`
   margin-right: 15px;
+  min-width: 60px;
   background-color: ${({ theme }) => theme.colors.white};
   border: none;
   color: ${({ theme }) => theme.colors.fontBlack};
