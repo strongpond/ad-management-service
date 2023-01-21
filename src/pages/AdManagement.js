@@ -106,6 +106,7 @@ const DropBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
   padding: 15px;
   border: 1px solid ${({ theme }) => theme.colors.borderGrey};
   border-radius: 10px;
@@ -127,10 +128,15 @@ const SelectedInput = styled.p`
 `;
 
 const DropList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding-top: 10px;
+  display: block;
+  position: absolute;
+  width: 102%;
+  margin-top: 25px;
+  border: 1px solid ${({ theme }) => theme.colors.borderGrey};
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  background-color: ${({ theme }) => theme.colors.white};
+  transition: height 0.3s ease;
 `;
 
 const AddAdButton = styled.button`

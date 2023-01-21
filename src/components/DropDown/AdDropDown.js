@@ -15,6 +15,10 @@ const AdDropDown = ({ value, adData, setAdIdentify, setIsOpen, isOpen, setFilter
 export default AdDropDown;
 
 const AdMenu = styled.li`
-  margin: 10px;
+  padding: 10px 0 10px 15px;
   cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.lightGrey};
+  }
 `;
