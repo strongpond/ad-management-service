@@ -1,1 +1,1 @@
-export { adIdentifyAtom, adDataAtom, filteredDataAtom } from "./adManagement";
+export { adIdentifyAtom, adDataAtom, filteredDataAtom } from "./adManagementAtom";
