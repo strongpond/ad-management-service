@@ -3,7 +3,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import styled from "styled-components";
 
 import { useDetectClose } from "../hooks";
-import { AdCard, AdDropDown } from "../components";
+import { AdCard, AdDropDownList } from "../components";
 
 const AdManagement = () => {
   const dropDownRef = useRef();
@@ -42,7 +42,7 @@ const AdManagement = () => {
               {isOpen && (
                 <DropList>
                   {adList.map((value, index) => (
-                    <AdDropDown
+                    <AdDropDownList
                       key={index}
                       value={value}
                       adData={adData}
