@@ -42,7 +42,7 @@ export default AdCard;
 const AdCardWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin: 0 20px 20px 0;
   padding: 20px;
   width: 300px;
   border: 1px solid ${({ theme }) => theme.colors.borderGrey};
