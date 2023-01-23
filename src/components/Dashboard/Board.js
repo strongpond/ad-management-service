@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { IoIosArrowDown } from "react-icons/io";
-import { BsCircleFill } from "react-icons/bs";
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import styled from "styled-components";
+import { PeriodDropDown } from "../DropDown";
+import FilterDropDown from "../DropDown/FilterDropDown";
 
 const Board = ({ filterData, prevData }) => {
   const [filterSumData, setFilterSumData] = useState([]);
   const [prevSumData, setPrevSumData] = useState([]);
+  const [filteredTitle, setFilteredTitle] = useState("ROAS");
+  const [filteredTitle2, setFilteredTitle2] = useState("클릭수");
+  const [periodTitle, setPeriodTitle] = useState("주간");
   const filterDataLength = filterData.length;
   const prevDataLength = prevData.length;
+  const periodList = ["주간", "월간"];
 
   const getSumObject = data => {
     return data.reduce((acc, curr) => {
@@ -64,6 +68,10 @@ const Board = ({ filterData, prevData }) => {
     },
   ];
 
+  const cardTitleList = cardMap.map(e => e.title);
+  const blue = "#4EADF7";
+  const green = "#84DA46";
+
   return (
     <Container>
       <CardBox>
@@ -91,21 +99,28 @@ const Board = ({ filterData, prevData }) => {
       <ChartBox>
         <ChartViewBox>
           <ChartDropDownBox>
-            <ChartDropDown>
-              <BsCircleFill size="12" color="#4EADF7" />
-              <DropDownMenu>ROAS</DropDownMenu>
-              <IoIosArrowDown />
-            </ChartDropDown>
-            <ChartDropDown>
-              <BsCircleFill size="12" color="#84DA46" />
-              <DropDownMenu>클릭 수</DropDownMenu>
-              <IoIosArrowDown />
-            </ChartDropDown>
+            <FilterDropDown
+              cardTitleList={cardTitleList}
+              filteredTitle={filteredTitle}
+              setFilteredTitle={setFilteredTitle}
+              iconColor={blue}
+            />
+            <FilterDropDown
+              cardTitleList={cardTitleList}
+              filteredTitle={filteredTitle2}
+              setFilteredTitle={setFilteredTitle2}
+              iconColor={green}
+            />
           </ChartDropDownBox>
-          <ChartDateFilterBox>
+          <PeriodDropDown
+            periodList={periodList}
+            periodTitle={periodTitle}
+            setPeriodTitle={setPeriodTitle}
+          />
+          {/* <ChartDateFilterBox>
             <ChartDateFilter>주간</ChartDateFilter>
             <IoIosArrowDown />
-          </ChartDateFilterBox>
+          </ChartDateFilterBox> */}
         </ChartViewBox>
         <Chart>그래프</Chart>
       </ChartBox>
@@ -187,42 +202,22 @@ const ChartDropDownBox = styled.div`
   flex-direction: row;
 `;
 
-const ChartDropDown = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-right: 10px;
-  padding: 10px;
-  width: 123px;
-  height: 40px;
-  background-color: ${({ theme }) => theme.colors.white};
-  border: 0.5px solid ${({ theme }) => theme.colors.borderGrey};
-  border-radius: 10px;
-`;
+// const ChartDateFilterBox = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+//   align-items: center;
+//   margin-right: 10px;
+//   padding: 10px;
+//   width: 80px;
+//   height: 40px;
+//   background-color: ${({ theme }) => theme.colors.white};
+// `;
 
-const DropDownMenu = styled.p`
-  color: ${({ theme }) => theme.colors.fontBlack};
-  font-size: ${({ theme }) => theme.fontSizes.mdTitle};
-  font-weight: 500;
-`;
-
-const ChartDateFilterBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-right: 10px;
-  padding: 10px;
-  width: 80px;
-  height: 40px;
-  background-color: ${({ theme }) => theme.colors.white};
-`;
-
-const ChartDateFilter = styled.p`
-  color: ${({ theme }) => theme.colors.fontBlack};
-  font-size: ${({ theme }) => theme.fontSizes.mdTitle};
-  font-weight: 500;
-`;
+// const ChartDateFilter = styled.p`
+//   color: ${({ theme }) => theme.colors.fontBlack};
+//   font-size: ${({ theme }) => theme.fontSizes.mdTitle};
+//   font-weight: 500;
+// `;
 
 const Chart = styled.div``;
