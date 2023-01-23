@@ -77,4 +77,5 @@ const DropList = styled.ul`
   border-radius: 0 0 10px 10px;
   background-color: ${({ theme }) => theme.colors.white};
   transition: height 0.3s ease;
+  z-index: 1;
 `;

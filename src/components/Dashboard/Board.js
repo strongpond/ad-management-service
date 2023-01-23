@@ -3,16 +3,17 @@ import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
 import styled from "styled-components";
 import { PeriodDropDown } from "../DropDown";
 import FilterDropDown from "../DropDown/FilterDropDown";
+import ApexCharts from "react-apexcharts";
 
 const Board = ({ filterData, prevData }) => {
   const [filterSumData, setFilterSumData] = useState([]);
   const [prevSumData, setPrevSumData] = useState([]);
   const [filteredTitle, setFilteredTitle] = useState("ROAS");
   const [filteredTitle2, setFilteredTitle2] = useState("클릭수");
-  const [periodTitle, setPeriodTitle] = useState("주간");
+  const [periodTitle, setPeriodTitle] = useState("일간");
   const filterDataLength = filterData.length;
   const prevDataLength = prevData.length;
-  const periodList = ["주간", "월간"];
+  const periodList = ["일간", "주간"];
 
   const getSumObject = data => {
     return data.reduce((acc, curr) => {
@@ -122,7 +123,31 @@ const Board = ({ filterData, prevData }) => {
             <IoIosArrowDown />
           </ChartDateFilterBox> */}
         </ChartViewBox>
-        <Chart>그래프</Chart>
+        <Chart>
+          <ApexCharts
+            height={300}
+            type="line"
+            series={[
+              { name: "오늘의 기온", data: [19, 26, 20, 9] },
+              { name: "내일의 기온", data: [30, 26, 34, 50] },
+            ]}
+            options={{
+              chart: {
+                height: 100,
+                width: 100,
+                toolbar: {
+                  show: false,
+                },
+              },
+              colors: [blue, green],
+              stroke: {
+                width: [3, 3],
+                curve: "straight",
+                dashArray: [0, 0],
+              },
+            }}
+          />
+        </Chart>
       </ChartBox>
     </Container>
   );
