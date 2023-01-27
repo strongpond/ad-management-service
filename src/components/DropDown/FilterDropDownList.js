@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { convertTitle } from "../../utils";
 
 export const FilterDropDownList = ({ value, setFilteredTitle, setIsOpen, isOpen }) => {
   const ValueClick = () => {
@@ -6,7 +7,7 @@ export const FilterDropDownList = ({ value, setFilteredTitle, setIsOpen, isOpen 
     setIsOpen(!isOpen);
   };
 
-  return <FilterMenu onClick={ValueClick}>{value}</FilterMenu>;
+  return <FilterMenu onClick={ValueClick}>{convertTitle(value)}</FilterMenu>;
 };
 
 const FilterMenu = styled.li`

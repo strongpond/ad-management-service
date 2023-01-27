@@ -1,3 +1,16 @@
+const titleMap = {
+  roas: "ROAS",
+  cost: "광고비",
+  imp: "노출수",
+  click: "클릭수",
+  cvr: "전환수",
+  ctr: "매출",
+};
+
+export const convertTitle = title => {
+  return titleMap[title];
+};
+
 const statusMap = {
   active: "진행중",
   ended: "마감",

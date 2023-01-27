@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { TiArrowSortedDown, TiArrowSortedUp } from "react-icons/ti";
+import ApexCharts from "react-apexcharts";
 import styled from "styled-components";
+
+import { convertTitle } from "../../utils";
 import { PeriodDropDown } from "../DropDown";
 import FilterDropDown from "../DropDown/FilterDropDown";
-import ApexCharts from "react-apexcharts";
 
-const Board = ({ filterData, prevData }) => {
+const Board = ({ filterData, prevData, startDate, endDate }) => {
   const [filterSumData, setFilterSumData] = useState([]);
   const [prevSumData, setPrevSumData] = useState([]);
-  const [filteredTitle, setFilteredTitle] = useState("ROAS");
-  const [filteredTitle2, setFilteredTitle2] = useState("클릭수");
+  const [filteredTitle, setFilteredTitle] = useState("roas");
+  const [filteredTitle2, setFilteredTitle2] = useState("click");
   const [periodTitle, setPeriodTitle] = useState("일간");
   const filterDataLength = filterData.length;
   const prevDataLength = prevData.length;
   const periodList = ["일간", "주간"];
+  const firstFilteredData = filterData?.map(e => e[filteredTitle]);
+  const secondFilteredData = filterData?.map(e => e[filteredTitle2]);
+  const dateList = filterData?.map(e => e.date);
 
   const getSumObject = data => {
     return data.reduce((acc, curr) => {
@@ -32,36 +37,42 @@ const Board = ({ filterData, prevData }) => {
 
   const cardMap = [
     {
+      name: "roas",
       title: "ROAS",
       value: Math.floor(filterSumData.roas / filterDataLength),
       prevValue: Math.floor(prevSumData.roas / prevDataLength),
       unit: "%",
     },
     {
+      name: "cost",
       title: "광고비",
       value: Math.floor(filterSumData.cost / (filterDataLength * 100)),
       prevValue: Math.floor(prevSumData.cost / (prevDataLength * 100)),
       unit: "만 원",
     },
     {
+      name: "imp",
       title: "노출수",
       value: Math.floor(filterSumData.imp / (filterDataLength * 1000)),
       prevValue: Math.floor(prevSumData.imp / (prevDataLength * 1000)),
       unit: "만 회",
     },
     {
+      name: "click",
       title: "클릭수",
       value: (filterSumData.click / (filterDataLength * 100)).toFixed(1),
       prevValue: (prevSumData.click / (prevDataLength * 100)).toFixed(1),
       unit: "만 회",
     },
     {
+      name: "cvr",
       title: "전환수",
       value: (filterSumData.cvr / filterDataLength).toFixed(1),
       prevValue: (prevSumData.cvr / prevDataLength).toFixed(1),
       unit: " 회",
     },
     {
+      name: "ctr",
       title: "매출",
       value: (filterSumData.ctr / filterDataLength).toFixed(1),
       prevValue: (prevSumData.ctr / prevDataLength).toFixed(1),
@@ -69,7 +80,7 @@ const Board = ({ filterData, prevData }) => {
     },
   ];
 
-  const cardTitleList = cardMap.map(e => e.title);
+  const cardTitleList = cardMap.map(e => e.name);
   const blue = "#4EADF7";
   const green = "#84DA46";
 
@@ -118,18 +129,14 @@ const Board = ({ filterData, prevData }) => {
             periodTitle={periodTitle}
             setPeriodTitle={setPeriodTitle}
           />
-          {/* <ChartDateFilterBox>
-            <ChartDateFilter>주간</ChartDateFilter>
-            <IoIosArrowDown />
-          </ChartDateFilterBox> */}
         </ChartViewBox>
         <Chart>
           <ApexCharts
             height={300}
             type="line"
             series={[
-              { name: "오늘의 기온", data: [19, 26, 20, 9] },
-              { name: "내일의 기온", data: [30, 26, 34, 50] },
+              { name: convertTitle(filteredTitle), data: firstFilteredData },
+              { name: convertTitle(filteredTitle2), data: secondFilteredData },
             ]}
             options={{
               chart: {
@@ -144,6 +151,10 @@ const Board = ({ filterData, prevData }) => {
                 width: [3, 3],
                 curve: "straight",
                 dashArray: [0, 0],
+              },
+              xaxis: {
+                type: "datetime",
+                categories: dateList,
               },
             }}
           />

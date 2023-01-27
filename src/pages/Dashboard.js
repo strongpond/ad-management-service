@@ -7,8 +7,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Board } from "../components";
 
 const Dashboard = () => {
-  const [startDate, setStartDate] = useState(new Date("2022-04-20"));
-  const [endDate, setEndDate] = useState(new Date("2022-04-20"));
+  const [startDate, setStartDate] = useState(new Date("2022-04-10"));
+  const [endDate, setEndDate] = useState(new Date("2022-04-16"));
   const [trendData, setTrendData] = useState([]);
   const [filterData, setFilterData] = useState([]);
   const [prevData, setPrevData] = useState([]);
@@ -72,13 +72,17 @@ const Dashboard = () => {
             maxDate={new Date("2022-04-20")}
             selectsRange
           />
-          {/* <Date>2021년 11월 11일~2021년 11월 16일</Date> */}
           <IoIosArrowDown />
         </DateBox>
       </TitleBox>
       <MainBoard>
         <BoardTitle>통합 광고 현황</BoardTitle>
-        <Board filterData={filterData} prevData={prevData} />
+        <Board
+          filterData={filterData}
+          prevData={prevData}
+          startDate={dayjs(startDate).format("MMM DD")}
+          endDate={dayjs(endDate).format("MMM DD")}
+        />
       </MainBoard>
     </Container>
   );
@@ -108,13 +112,6 @@ const DateBox = styled.div`
   display: flex;
   flex-direction: row;
 `;
-
-// const Date = styled.p`
-//   padding-right: 15px;
-//   color: ${({ theme }) => theme.colors.fontBlack};
-//   font-size: ${({ theme }) => theme.fontSizes.mdTitle};
-//   font-weight: 500;
-// `;
 
 const MainBoard = styled.div``;
 

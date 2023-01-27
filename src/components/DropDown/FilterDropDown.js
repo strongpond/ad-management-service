@@ -3,6 +3,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { BsCircleFill } from "react-icons/bs";
 import styled from "styled-components";
 
+import { convertTitle } from "../../utils";
 import { useDetectClose } from "../../hooks";
 import { FilterDropDownList } from "./FilterDropDownList";
 
@@ -14,7 +15,7 @@ const FilterDropDown = ({ cardTitleList, filteredTitle, setFilteredTitle, iconCo
     <DropBox ref={dropDownRef} onClick={() => setIsOpen(!isOpen)}>
       <DropHeader>
         <BsCircleFill size="12" color={iconColor} />
-        <SelectedInput>{filteredTitle}</SelectedInput>
+        <SelectedInput>{convertTitle(filteredTitle)}</SelectedInput>
         <IoIosArrowDown />
       </DropHeader>
       {isOpen && (
